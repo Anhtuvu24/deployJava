@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Quản lý sinh viên</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="4HsoGkeGTaJZgeY9pSBhPA4c1ObcfGxB8XcahhTp" />
+
+    <link rel="stylesheet" href="/vendors/daterangepicker/daterangepicker.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" th:href="@{/css/icons.min.css}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" th:href="@{/css/app-saas.min.css}" id="app-style">
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+    <div class="fetch-loading d-none" id="fetch-loading">
+        <img src="/images/logo-lg.png" alt="" class="img-fluid" width="300">
+        <div class="spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+
+    <div class="wrapper">
+
+        <div class="navbar-custom">
+            <div class="topbar container-fluid">
+                <div class="d-flex align-items-center gap-lg-2 gap-1">
+
+                    <!-- Topbar Brand Logo -->
+                    <div class="logo-topbar">
+                        <!-- Logo light -->
+                        <a href="index.html" class="logo-light">
+                            <span class="logo-lg">
+                                <img src="/images/logo-lg.png" alt="logo">
+                            </span>
+                            <span class="logo-sm">
+                                <img src="/images/logo-sm.png" alt="small logo">
+                            </span>
+                        </a>
+
+                        <!-- Logo Dark -->
+                        <a href="index.html" class="logo-dark">
+                            <span class="logo-lg">
+                                <img src="/images/logo-lg.png" alt="dark logo">
+                            </span>
+                            <span class="logo-sm">
+                                <img src="/images/logo-sm.png" alt="small logo">
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Sidebar Menu Toggle Button -->
+                    <button class="button-toggle-menu">
+                        <i class="mdi mdi-menu"></i>
+                    </button>
+
+                    <!-- Horizontal Menu Toggle Button -->
+                    <button class="navbar-toggle" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                        <div class="lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </button>
+                </div>
+
+                <ul class="topbar-menu d-flex align-items-center gap-3">
+
+                    <li class="d-none1 d-sm-inline-block1">
+                        <div class="nav-link" id="light-dark-mode" data-bs-toggle="tooltip" data-bs-placement="left"
+                            title="Theme Mode">
+                            <i class="ri-moon-line font-22"></i>
+                        </div>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#"
+                            role="button" aria-haspopup="false" aria-expanded="false">
+                            <span class="account-user-avatar">
+                                <img src="/images/user.png" alt="user-image" width="32" class="rounded-circle">
+                            </span>
+                            <span class="d-lg-flex flex-column gap-1 d-none">
+                                <h5 class="my-0">Phạm Hồng Nguyên</h5>
+                                <h6 class="my-0 fw-normal">Super Admin</h6>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
+                            <!-- item-->
+                            <div class=" dropdown-header noti-title">
+                                <h6 class="text-overflow m-0">Chào mừng bạn !</h6>
+                            </div>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item btn-show-profile"
+                                data-url="/load-profile">
+                                <i class="mdi mdi-account-circle me-1"></i>
+                                <span>Tài khoản của tôi</span>
+                            </a>
+
+                            <!-- item-->
+                            <a href="/dang-xuat" class="dropdown-item">
+                                <i class="mdi mdi-logout me-1"></i>
+                                <span>Đăng xuất</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-end offcanvas-size-xl" tabindex="-1" id="offcanvasEditProfile">
+            <div class="off-canvas-header">
+                <h5 class="offcanvas-title">Tài khoản của tôi</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+            </div>
+        </div>
+
+        <div class="leftside-menu">
+
+            <!-- Brand Logo Light -->
+            <a href="" class="logo logo-light">
+                <span class="logo-lg">
+                    <img src="/images/logo-lg.png" alt="logo">
+                </span>
+                <span class="logo-sm">
+                    <img src="/images/logo-sm.png" alt="small logo">
+                </span>
+            </a>
+
+            <!-- Brand Logo Dark -->
+            <a href="" class="logo logo-dark">
+                <span class="logo-lg">
+                    <img src="/images/logo-lg.png" alt="dark logo">
+                </span>
+                <span class="logo-sm">
+                    <img src="/images/logo-sm.png" alt="small logo">
+                </span>
+            </a>
+
+            <!-- Sidebar Hover Menu Toggle Button -->
+            <div class="button-sm-hover" data-bs-toggle="tooltip" data-bs-placement="right" title="Show Full Sidebar">
+                <i class="ri-checkbox-blank-circle-line align-middle"></i>
+            </div>
+
+            <!-- Full Sidebar Menu Close Button -->
+            <div class="button-close-fullsidebar" style="position: absolute; right: 16px;">
+                <i class="ri-close-fill align-middle"></i>
+            </div>
+
+            <!-- Sidebar -left -->
+            <div class="h-100" id="leftside-menu-container" data-simplebar>
+
+                <ul class="side-nav">
+
+                    <li class="side-nav-item">
+                        <a href="/" class="side-nav-link">
+                            <i class="uil-home-alt"></i>
+                            <span> Dashboard </span>
+                        </a>
+                    </li>
+
+                    <li class="side-nav-item ">
+                        <a href="/department" class="side-nav-link ">
+                            <i class="uil-briefcase-alt"></i>
+                            <span> Quản lý khoa </span>
+                        </a>
+                    </li>
+
+                    <li class="side-nav-item">
+                        <a href="/major" class="side-nav-link">
+                            <i class="uil-bag"></i>
+                            <span> Quản lý ngành </span>
+                        </a>
+                    </li>
+
+                    <li class="side-nav-item">
+                        <a href="/classroom" class="side-nav-link">
+                            <i class="uil-receipt-alt"></i>
+                            <span> Quản lý lớp </span>
+                        </a>
+                    </li>
+
+                    <li class="side-nav-item">
+                        <a href="/subject" class="side-nav-link">
+                            <i class="uil-swatchbook"></i>
+                            <span> Quản lý môn học </span>
+                        </a>
+                    </li>
+
+                    <li class="side-nav-item">
+                        <a href="/teacher" class="side-nav-link">
+                            <i class="uil-book-reader"></i>
+                            <span> Quản lý giáo viên </span>
+                        </a>
+                    </li>
+
+                    <li class="side-nav-item">
+                        <a href="/student" class="side-nav-link">
+                            <i class="uil-users-alt"></i>
+                            <span> Quản lý sinh viên </span>
+                        </a>
+                    </li>
+
+                    <li class="side-nav-item">
+                        <a href="/module_subject" class="side-nav-link">
+                            <i class="uil-book-open"></i>
+                            <span> Quản lý học phần </span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+
+        <div class="content-page">
+         
+
+            <div class="content" > 
+                <div>
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title">Cập nhật giáo viên</h5>
+                    </div>
+                    <form th:action="@{/updateTeacher}" th:object="${teacher}" method="post">
+                        <div class="offcanvas-body" >
+                            <div class="row" style="margin: 0;">
+            
+                                <input type="text" class="form-control" hidden name="teacher_id" th:field="*{teacher_id}">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Họ và tên</label>
+                                    <input type="text" class="form-control" name="fullname" th:field="*{fullname}">
+                                </div>  
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Số điện thoại</label>
+                                    <input type="text" class="form-control" name="phone_number" th:field="*{phone_number}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="text" class="form-control" name="email" th:field="*{email}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Ngày sinh</label>
+                                    <input type="date" class="form-control" name="start_at"  th:field="*{date_of_birth}" th:value="${date_of_birth}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Địa chỉ</label>
+                                    <input type="text" class="form-control" name="address" th:field="*{address}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Giới tính</label>
+                                    <div>
+                                        <!-- Radio button cho Nam -->
+                                        <input type="radio" class="form-check-input" id="selectGenderCreatestudentMale"
+                                               th:field="*{gender}" th:value="1"/>
+                                        <label class="form-check-label" for="selectGenderCreatestudentMale">Nam</label>
+                                        
+                                        <!-- Radio button cho Nữ -->
+                                        <input type="radio" class="form-check-input" id="selectGenderCreatestudentFemale"
+                                               th:field="*{gender}" th:value="0"/>
+                                        <label class="form-check-label" for="selectGenderCreatestudentFemale">Nữ</label>
+                                    </div>
+                                </div>
+            
+                            </div>
+            
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-info btn-block btn-store-department">Cập nhật</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <script>
+                                document.write(new Date().getFullYear())
+
+
+                            </script>
+                            © Student Management - https://management.student.haui.vn
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+
+    </div>
+
+
+    
+
+    
+
+    <script src="/js/vendor.min.js"></script>
+
+    <script src="/vendors/apexcharts/apexcharts.min.js"></script>
+    <script src="/vendors/daterangepicker/daterangepicker.js"></script>
+    <script src="/vendors/daterangepicker/moment.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+
+    </script>
+
+    <script src="/js/hyper-config.js"></script>
+    <script src="/js/app.min.js"></script>
+    <script src="/js/app.js"></script>
+
+</body>
+
+</html>

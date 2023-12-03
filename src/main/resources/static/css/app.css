@@ -1,0 +1,49 @@
+
+.fetch-loading {
+    position: fixed;
+
+    width: 100%;
+    height: 100%;
+
+    text-align: center;
+
+    background-color: var(--ct-light);
+    z-index: 10000;
+
+    opacity: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.offcanvas-size-xl {
+    --ct-offcanvas-width: min(100vw, 600px) !important;
+}
+.offcanvas-size-xxl {
+    --ct-offcanvas-width: min(100vw, 900px) !important;
+}
+.offcanvas-size-xxxl {
+    --ct-offcanvas-width: min(90vw, 1200px) !important;
+}
+.offcanvas-size-md { /* add Responsivenes to default offcanvas */
+    --ct-offcanvas-width: min(100vw, 400px) !important;
+}
+.offcanvas-size-sm {
+    --ct-offcanvas-width: min(100vw, 250px) !important;
+}
+
+.btn-block {
+    width: 100% !important;
+}
+.content{
+    position: relative;
+}
+.container-form-create-tunglv {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    background: #333;
+    /*background-color: red;*/
+
+}
